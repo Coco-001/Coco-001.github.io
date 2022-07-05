@@ -16,21 +16,21 @@
   <meta name="author" content="Coco">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="Springboot整合Redis连接不上的几种情况今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下 12345connection refused: no further information java.nio.channels.ClosedChannelException: nullio.lettuce.core.RedisConnectionExcep">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2022/05/26/hello-world/index.html">
+<meta property="og:title" content="Springboot整合Redis连接不上的几种情况">
+<meta property="og:url" content="http://example.com/2022/05/26/Springboot%E6%95%B4%E5%90%88Redis%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="cocospace">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Springboot整合Redis连接不上的几种情况今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下 12345connection refused: no further information java.nio.channels.ClosedChannelException: nullio.lettuce.core.RedisConnectionExcep">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-26T11:03:04.562Z">
-<meta property="article:modified_time" content="2022-05-26T11:03:04.562Z">
+<meta property="article:modified_time" content="2022-07-05T13:28:05.465Z">
 <meta property="article:author" content="Coco">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Hello World - cocospace</title>
+  <title>Springboot整合Redis连接不上的几种情况 - cocospace</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +193,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="Springboot整合Redis连接不上的几种情况"></span>
           
         </div>
 
@@ -216,7 +216,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          367 字
+          1.7k 字
         
       </span>
     
@@ -227,7 +227,7 @@
         
         
         
-          4 分钟
+          15 分钟
         
       </span>
     
@@ -265,23 +265,35 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">Springboot整合Redis连接不上的几种情况</h1>
             
             <div class="markdown-body">
               
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+              <h1 id="Springboot整合Redis连接不上的几种情况"><a href="#Springboot整合Redis连接不上的几种情况" class="headerlink" title="Springboot整合Redis连接不上的几种情况"></a>Springboot整合Redis连接不上的几种情况</h1><p>今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">connection</span> refused: <span class="hljs-keyword">no</span> further information <br><br>java.nio.channels.ClosedChannelException: <span class="hljs-keyword">null</span><br><br>io.lettuce.core.RedisConnectionException: Unable <span class="hljs-keyword">to</span> <span class="hljs-keyword">connect</span> <span class="hljs-keyword">to</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6739</span>] <span class="hljs-keyword">with</span> root cause<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>在网上搜索了好久，得到的答案都是相互复制，没一个有效的解决方案，后面自己解决了，这里总结一下出错常见的几种情况；</p>
+<h2 id="1-redis版本带来的连接出错问题："><a href="#1-redis版本带来的连接出错问题：" class="headerlink" title="1. redis版本带来的连接出错问题："></a>1. redis版本带来的连接出错问题：</h2><p>Java 操作 Redis 的库有两个，Jedis和 Lettuce，目前 SpringBoot 2.x 中已经将 Jedis 换成了 Lettuce，Lettuce是连接Redis Server的客户端程序，Redis客户端使用RESP（Redis的序列化协议）协议与Redis的服务器端进行通信。Redis5及以下默认使用RESP2进行连接，Redis6及以上版本需要使用RESP3连接。</p>
+<p>SpringBoot2.5.7使用的lettuce版本是6.1.5，连接Redis时默认通过RESP3协议，如果redis的版本低于6.0，此时会失败，需要手动改回RESP2。</p>
+<p>建议直接引入Jedis，然后引入通池依赖 commons-pool2</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 排除Lettuce影响 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.lettuce<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lettuce-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-pool2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>redis.clients<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jedis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="2-配置文件问题"><a href="#2-配置文件问题" class="headerlink" title="2. 配置文件问题"></a>2. 配置文件问题</h2><h3 id="1-Redis配置文件问题"><a href="#1-Redis配置文件问题" class="headerlink" title="1. Redis配置文件问题"></a>1. Redis配置文件问题</h3><ul>
+<li><p>如果你的Redis没有设置密码（默认无密码），springboot配置文件中就不要配置password；</p>
+</li>
+<li><p>注意查看Redis的配置文件中protected-mode，如果该项为yes，则必须设置密码才能连接Redis（默认是设置成yes的， 防止了远程访问，在redis3.2.3版本后）;</p>
+</li>
+<li><p>注意查看Redis的配置文件中bind，如果绑定了的ip没有当前尝试连接的机器的ip（默认绑定127.0.0.1），则无法连接；</p>
+</li>
+</ul>
+<h3 id="2-timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；"><a href="#2-timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；" class="headerlink" title="2. timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；"></a>2. timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml">spring:<br>  # 连接本地的Redis<br>  redis:<br>    database: 0<br>    port: 6379<br>    host: 127.0.0.1<br>    timeout: 5000<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-是否开放对应端口"><a href="#3-是否开放对应端口" class="headerlink" title="3. 是否开放对应端口"></a>3. 是否开放对应端口</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml">#这里用的是firewall防火墙配置，开放端口并重启<br>firewall-cmd --zone=public --add-port=6379/tcp --permanent <br><br>firewall-cmd --reload<br></code></pre></td></tr></table></figure>
+
+
+
 
               
             </div>
@@ -298,8 +310,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>http://example.com/2022/05/26/hello-world/</div>
+      <div>Springboot整合Redis连接不上的几种情况</div>
+      <div>http://example.com/2022/05/26/Springboot整合Redis的常见问题/</div>
     </div>
     <div class="license-meta">
       
