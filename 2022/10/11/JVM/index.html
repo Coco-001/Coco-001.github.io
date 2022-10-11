@@ -16,21 +16,24 @@
   <meta name="author" content="Coco">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Springboot整合Redis连接不上的几种情况今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下 12345connection refused: no further information java.nio.channels.ClosedChannelException: nullio.lettuce.core.RedisConnectionExcep">
+    <meta name="description" content="深入理解java虚拟机第一部分第一章 走近javajava技术体系JDK：java程序设计语言、java虚拟机、java类库（Java Development Kit），是支持java程序开发的最小环境 JRE：java类库的java SE API子集和java虚拟机，是支持java程序运行的标准环境  java发展史Garbage first（G1）收集器于JDK7提出 ZGC JDK11 第二">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Springboot整合Redis连接不上的几种情况">
-<meta property="og:url" content="http://example.com/2022/05/26/Springboot%E6%95%B4%E5%90%88Redis%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="cocospace">
+<meta property="og:url" content="http://example.com/2022/10/11/JVM/index.html">
 <meta property="og:site_name" content="cocospace">
-<meta property="og:description" content="Springboot整合Redis连接不上的几种情况今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下 12345connection refused: no further information java.nio.channels.ClosedChannelException: nullio.lettuce.core.RedisConnectionExcep">
+<meta property="og:description" content="深入理解java虚拟机第一部分第一章 走近javajava技术体系JDK：java程序设计语言、java虚拟机、java类库（Java Development Kit），是支持java程序开发的最小环境 JRE：java类库的java SE API子集和java虚拟机，是支持java程序运行的标准环境  java发展史Garbage first（G1）收集器于JDK7提出 ZGC JDK11 第二">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-05-26T11:03:04.562Z">
-<meta property="article:modified_time" content="2022-07-05T13:28:05.465Z">
+<meta property="og:image" content="c:/Users/Mr.Shan/Desktop/面试准备/images/JVM/image-20220820170912043.png">
+<meta property="og:image" content="c:/Users/Mr.Shan/Desktop/面试准备/images/JVM/image-20220820235252743.png">
+<meta property="article:published_time" content="2022-10-11T06:12:31.397Z">
+<meta property="article:modified_time" content="2022-09-30T15:34:38.746Z">
 <meta property="article:author" content="Coco">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Users/Mr.Shan/Desktop/面试准备/images/JVM/image-20220820170912043.png">
   
   
   
-  <title>Springboot整合Redis连接不上的几种情况 - cocospace</title>
+  <title>cocospace</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Springboot整合Redis连接不上的几种情况"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -204,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-26 19:03" pubdate>
-          2022年5月26日 晚上
+        <time datetime="2022-10-11 14:12" pubdate>
+          2022年10月11日 下午
         </time>
       </span>
     
@@ -216,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          2.9k 字
         
       </span>
     
@@ -227,7 +230,7 @@
         
         
         
-          15 分钟
+          25 分钟
         
       </span>
     
@@ -265,35 +268,46 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Springboot整合Redis连接不上的几种情况</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body">
               
-              <h1 id="Springboot整合Redis连接不上的几种情况"><a href="#Springboot整合Redis连接不上的几种情况" class="headerlink" title="Springboot整合Redis连接不上的几种情况"></a>Springboot整合Redis连接不上的几种情况</h1><p>今天在给之前写的个人运动健康项目引入Redis作为缓存的时候，出现了错误，错误信息如下</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">connection</span> refused: <span class="hljs-keyword">no</span> further information <br><br>java.nio.channels.ClosedChannelException: <span class="hljs-keyword">null</span><br><br>io.lettuce.core.RedisConnectionException: Unable <span class="hljs-keyword">to</span> <span class="hljs-keyword">connect</span> <span class="hljs-keyword">to</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6739</span>] <span class="hljs-keyword">with</span> root cause<br></code></pre></td></tr></table></figure>
-
-<p>在网上搜索了好久，得到的答案都是相互复制，没一个有效的解决方案，后面自己解决了，这里总结一下出错常见的几种情况；</p>
-<h2 id="1-redis版本带来的连接出错问题："><a href="#1-redis版本带来的连接出错问题：" class="headerlink" title="1. redis版本带来的连接出错问题："></a>1. redis版本带来的连接出错问题：</h2><p>Java 操作 Redis 的库有两个，Jedis和 Lettuce，目前 SpringBoot 2.x 中已经将 Jedis 换成了 Lettuce，Lettuce是连接Redis Server的客户端程序，Redis客户端使用RESP（Redis的序列化协议）协议与Redis的服务器端进行通信。Redis5及以下默认使用RESP2进行连接，Redis6及以上版本需要使用RESP3连接。</p>
-<p>SpringBoot2.5.7使用的lettuce版本是6.1.5，连接Redis时默认通过RESP3协议，如果redis的版本低于6.0，此时会失败，需要手动改回RESP2。</p>
-<p>建议直接引入Jedis，然后引入通池依赖 commons-pool2</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 排除Lettuce影响 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.lettuce<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lettuce-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-pool2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>redis.clients<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jedis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-配置文件问题"><a href="#2-配置文件问题" class="headerlink" title="2. 配置文件问题"></a>2. 配置文件问题</h2><h3 id="1-Redis配置文件问题"><a href="#1-Redis配置文件问题" class="headerlink" title="1. Redis配置文件问题"></a>1. Redis配置文件问题</h3><ul>
-<li><p>如果你的Redis没有设置密码（默认无密码），springboot配置文件中就不要配置password；</p>
-</li>
-<li><p>注意查看Redis的配置文件中protected-mode，如果该项为yes，则必须设置密码才能连接Redis（默认是设置成yes的， 防止了远程访问，在redis3.2.3版本后）;</p>
-</li>
-<li><p>注意查看Redis的配置文件中bind，如果绑定了的ip没有当前尝试连接的机器的ip（默认绑定127.0.0.1），则无法连接；</p>
-</li>
-</ul>
-<h3 id="2-timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；"><a href="#2-timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；" class="headerlink" title="2. timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；"></a>2. timeout设置得不能太小，否则网络慢的话，还没等连上就接超时了；</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml">spring:<br>  # 连接本地的Redis<br>  redis:<br>    database: 0<br>    port: 6379<br>    host: 127.0.0.1<br>    timeout: 5000<br></code></pre></td></tr></table></figure>
-
-<h2 id="3-是否开放对应端口"><a href="#3-是否开放对应端口" class="headerlink" title="3. 是否开放对应端口"></a>3. 是否开放对应端口</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml">#这里用的是firewall防火墙配置，开放端口并重启<br>firewall-cmd --zone=public --add-port=6379/tcp --permanent <br><br>firewall-cmd --reload<br></code></pre></td></tr></table></figure>
-
-
-
+              <h1 id="深入理解java虚拟机"><a href="#深入理解java虚拟机" class="headerlink" title="深入理解java虚拟机"></a>深入理解java虚拟机</h1><h2 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h2><h3 id="第一章-走近java"><a href="#第一章-走近java" class="headerlink" title="第一章 走近java"></a>第一章 走近java</h3><h4 id="java技术体系"><a href="#java技术体系" class="headerlink" title="java技术体系"></a>java技术体系</h4><p>JDK：java程序设计语言、java虚拟机、java类库（Java Development Kit），是支持java程序开发的最小环境</p>
+<p>JRE：java类库的java SE API子集和java虚拟机，是支持java程序运行的标准环境</p>
+<p><img src="C:\Users\Mr.Shan\Desktop\面试准备\images\JVM\image-20220820170912043.png" srcset="/img/loading.gif" lazyload alt="image-20220820170912043"></p>
+<h4 id="java发展史"><a href="#java发展史" class="headerlink" title="java发展史"></a>java发展史</h4><p>Garbage first（G1）收集器于JDK7提出</p>
+<p>ZGC JDK11</p>
+<h2 id="第二部分-自动内存管理"><a href="#第二部分-自动内存管理" class="headerlink" title="第二部分 自动内存管理"></a>第二部分 自动内存管理</h2><h3 id="第二章-java内存区域与内存溢出异常"><a href="#第二章-java内存区域与内存溢出异常" class="headerlink" title="第二章 java内存区域与内存溢出异常"></a>第二章 java内存区域与内存溢出异常</h3><p>根据《java虚拟机规范》的规定，java虚拟机所管理的内存区域包括以下几个运行时数据区域：</p>
+<p><img src="C:\Users\Mr.Shan\Desktop\面试准备\images\JVM\image-20220820235252743.png" srcset="/img/loading.gif" lazyload alt="image-20220820235252743"></p>
+<h4 id="程序计数器（PCR）"><a href="#程序计数器（PCR）" class="headerlink" title="程序计数器（PCR）"></a>程序计数器（PCR）</h4><p>是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。</p>
+<p>在任何一个确定的时刻，一个内核都只会执行一条线程中的指令。因此，为了线程切换后能恢复到正确的执行位置，每个线程都需要一个独立的程序计数器，各条线程之间的计数器互不影响，独立存储，我们称这类内存区域为”线程私有”的内存。</p>
+<p>如果线程正在执行的是一个java方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行本地（native）方法，这个计数器为空（Undefined）。</p>
+<p><strong>此内存区域是唯一一个在《java虚拟机规范》中没有规定任何OutOfMemoryError情况的区域</strong></p>
+<h4 id="java虚拟机栈"><a href="#java虚拟机栈" class="headerlink" title="java虚拟机栈"></a>java虚拟机栈</h4><p>java虚拟机栈也是线程私有，它的生命周期与线程相同。</p>
+<p>虚拟机栈描述的是java方法执行的线程内存模型：每个方法被执行的时候，java虚拟机都会同步创建一个栈帧用于存储局部变量表、操作数栈、动态连接、方法出口等信息。每一个方法从被调用到执行完毕的过程，就对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</p>
+<p>局部变量表存放了编译期可知的各种java虚拟机基本数据类型（boolean、byte、char、short、int、float、double、long）、对象引用类型（reference类型，它并不等同于对象本身，可能是一个指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或者其他与此对象相关的位置）和returnAddress类型（指向了一条字节码指令的地址）。</p>
+<p>这些数据类型在局部变量表中的存储空间以局部变量槽（Slot）来表示，其中64位长度的long和double类型的数据会占用两个变量槽，其余的数据类型只占用一个。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在栈帧中分配多大的局部变量空间是完全确定的，在方法的运行期间不会改变局部变量表的大小。</p>
+<p><strong>这里说的“大小”是指变量槽的数量，虚拟机真正使用多大的内存空间（譬如按照1个变量槽占用32个比特、64个比特，或者更多）来实现一个变量槽，这是完全由具体的虚拟机实现自行决定的事情。</strong></p>
+<p>在《Java虚拟机规范》中，对这个内存区域规定了两类异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出StackOverflowError异常；如果Java虚拟机栈容量可以动态扩展[2]，当栈扩展时无法申请到足够的内存会抛出OutOfMemoryError异常。</p>
+<p><strong>Hot-spot虚拟机不允许栈扩展，所以只要线程申请栈空间成功了就不会存在OOM异常，但是申请失败了仍会抛出OOM异常</strong></p>
+<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>本地方法栈与虚拟机栈所发挥的作用十分相似，其区别只是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则是为虚拟机使用的本地方法服务。</p>
+<p>《Java虚拟机规范》对本地方法栈中方法使用的语言、使用方式与数据结构并没有任何强制规定，因此具体的虚拟机可以根据需要自由实现它，甚至有的Java虚拟机（譬如Hot-Spot虚拟机）直接就把本地方法栈和虚拟机栈合二为一。</p>
+<p><strong>与虚拟机栈一样，本地方法栈也会在栈深度溢出或者栈扩展失败时分别抛出StackOverflowError和OutOfMemoryError异常。</strong></p>
+<h4 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h4><p>java堆（java heap）是虚拟机所管理的内存中最大的一块。java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，java世界里<strong>“几乎”</strong>所有的对象实例都在这里分配内存。</p>
+<p>根据《Java虚拟机规范》的规定，Java堆可以处于物理上不连续的内存空间中，但在逻辑上它应该被视为连续的；但对于大对象（典型的如数组对象），多数虚拟机实现出于实现简单、存储高效的考虑，很可能会要求连续的内存空间。</p>
+<p>Java堆既可以被实现成固定大小的，也可以是可扩展的，不过当前主流的Java虚拟机都是按照可扩展来实现的<strong>（通过参数-Xmx和-Xms设定）</strong>。如果在Java堆中没有内存完成实例分配，并且堆也无法再扩展时，Java虚拟机将会抛出OutOfMemoryError异常。</p>
+<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据。</p>
+<p>在JDK8之前，方法区是采用永久代实现，JDK8之后，改为使用元空间实现方法区。</p>
+<p><strong>元空间是采用本地内存实现（native memory），也就是说它的内存不是在虚拟机内的，所以可以理论上物理机器还有多个内存就可以分配，而不用再受限于JVM本身分配的内存了。</strong></p>
+<p>《Java虚拟机规范》对方法区的约束是非常宽松的，除了和Java堆一样不需要连续的内存和可以选择固定大小或者可扩展外，甚至还可以选择不实现垃圾收集。相对而言，垃圾收集行为在这个区域的确是比较少出现的，但并非数据进入了方法区就如永久代的名字一样“永久”存在了。这区域的内存回收目标主要是针对常量池的回收和对类型的卸载，一般来说 这个区域的回收效果比较难令人满意，尤其是类型的卸载，条件相当苛刻，但是这部分区域的回收有时又确实是必要的。以前Sun公司的Bug列表中，曾出现过的若干个严重的Bug就是由于低版本的HotSpot虚拟机对此区域未完全回收而导致内存泄漏。</p>
+<p>根据《java虚拟机规范》的规定，如果方法区无法满足新的内存分配需求时，会抛出OutOfMemoryError异常。</p>
+<h3 id="第三章-垃圾收集器与内存分配策略"><a href="#第三章-垃圾收集器与内存分配策略" class="headerlink" title="第三章 垃圾收集器与内存分配策略"></a>第三章 垃圾收集器与内存分配策略</h3><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>在对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就+1；当引用失效时，就-1；任何时刻计数器为0的对象就是不可能再被使用的。</p>
+<p>原理简单，效率高，但是无法解决循环引用的问题。</p>
+<h4 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h4><p>通过“GC Roots”的根对象作为起始节点集，从这些节点出发，根据引用关系向下搜索，路径成为“引用链”，如果某个对象到“GC Roots”间没有任何引用链相连（不可达），则证明此对象是不可能再被使用的。</p>
+<h4 id="四种不同的引用"><a href="#四种不同的引用" class="headerlink" title="四种不同的引用"></a>四种不同的引用</h4><p>强引用：无论何时都不回收。</p>
+<p>软引用：在系统将要发生内存溢出异常前，会把这些对象列进回收范围之中进行第二次回收，如果这次回收还没有足够的内存，才会抛出内存溢出异常。</p>
+<p>弱引用：强度低于软引用，对弱引用的对象只能生存到下一次垃圾回收发生为止。当开始回收时，不管内存是否足够，都会回收掉只被弱引用关联的对象。</p>
+<p>虚引用：虚引用是否存在对对象的生存周期没有任何影响。为一个对象设置虚引用关联的唯一目的只是为了能在这个对象被回收时收到一个系统通知。</p>
 
               
             </div>
@@ -310,8 +324,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Springboot整合Redis连接不上的几种情况</div>
-      <div>http://example.com/2022/05/26/Springboot整合Redis的常见问题/</div>
+      <div></div>
+      <div>http://example.com/2022/10/11/JVM/</div>
     </div>
     <div class="license-meta">
       
@@ -323,7 +337,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月26日</div>
+          <div>2022年10月11日</div>
         </div>
       
       
@@ -353,15 +367,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/11/JVM/" title="">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/05/26/Springboot%E6%95%B4%E5%90%88Redis%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Springboot整合Redis连接不上的几种情况">
+                        <span class="hidden-mobile">Springboot整合Redis连接不上的几种情况</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
