@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>深入理解Java虚拟机 | cocospace</title><meta name="author" content="Coco"><meta name="copyright" content="Coco"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="JVM包括哪几部分？   Java程序是怎么运行的？   Java代码的编译过程。   类的生命周期。     对象实例化顺序。      Java类加载器和双亲委派模型。    双亲委派模型的工作过程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Java虚拟机">
+<meta property="og:url" content="http://www.cocospace.com/2021/09/12/JVM/index.html">
+<meta property="og:site_name" content="cocospace">
+<meta property="og:description" content="JVM包括哪几部分？   Java程序是怎么运行的？   Java代码的编译过程。   类的生命周期。     对象实例化顺序。      Java类加载器和双亲委派模型。    双亲委派模型的工作过程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2.baidu.com/it/u=1734247813,400897296&fm=253&fmt=auto&app=138&f=PNG?w=1111&h=500">
+<meta property="article:published_time" content="2021-09-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-24T12:54:49.018Z">
+<meta property="article:author" content="Coco">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2.baidu.com/it/u=1734247813,400897296&fm=253&fmt=auto&app=138&f=PNG?w=1111&h=500"><link rel="shortcut icon" href="https://himg.bdimg.com/sys/portrait/item/public.1.c9c27b67.T8_jvMBtFmm5HndCatP7rA.jpg"><link rel="canonical" href="http://www.cocospace.com/2021/09/12/JVM/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Coco","link":"链接: ","source":"来源: cocospace","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '深入理解Java虚拟机',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-24 20:54:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://himg.bdimg.com/sys/portrait/item/public.1.c9c27b67.T8_jvMBtFmm5HndCatP7rA.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url('https://img2.baidu.com/it/u=1734247813,400897296&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=1111&amp;h=500')"><nav id="nav"><span id="blog-info"><a href="/" title="cocospace"><span class="site-name">cocospace</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">深入理解Java虚拟机</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-11T16:00:00.000Z" title="发表于 2021-09-12 00:00:00">2021-09-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-24T12:54:49.018Z" title="更新于 2023-02-24 20:54:49">2023-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">语言学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="深入理解Java虚拟机"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ol>
+<li><p>JVM包括哪几部分？</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690687338/9602C6323C6B86C4EDA164DB052D8420" alt="JVM组成"></p>
+</li>
+<li><p>Java程序是怎么运行的？</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690729850/2B33427D8F51F7F8EADC74E0034C5FC7" alt="Java程序运行过程"></p>
+</li>
+<li><p>Java代码的编译过程。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690771024/D5A5CF19C86BD497E892012DFFC26B0E" alt="Java代码编译过程"></p>
+</li>
+<li><p>类的生命周期。</p>
+</li>
+</ol>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690785011/2F1143CD0902210BA8783DBC8CB76D0A" alt="类加载过程"></p>
+<ol start="5">
+<li><p>对象实例化顺序。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690800773/9285BA6FB2D1E24A711E876B40F6E978"></p>
+</li>
+</ol>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690813265/7F511C22AD3C8FA49BFA8D92452E6CB3"></p>
+<ol start="6">
+<li><p>Java类加载器和双亲委派模型。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645690834665/8E2E9DCFA8BD05816F2C6E5041254667"></p>
+</li>
+</ol>
+<p>双亲委派模型的工作过程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去完成加载。</p>
+<p>使用双亲委派模型来组织类加载器之间的关系，一个显而易见的好处就是Java中的类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存放在rt.jar之中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都能够保证是同一个类。反之，如果没有使用双亲委派模型，都由各个类加载器自行去加载的话，如果用户自己也编写了一个名为java.lang.Object的类，并放在程序的ClassPath中，那系统中就会出现多个不同的Object类，Java类型体系中最基础的行为也就无从保证，应用程序将会变得一片混乱。（保证类的加载不出现问题）</p>
+<ol start="7">
+<li><p>GC机制。</p>
+<ul>
+<li><p>怎么定义垃圾？</p>
+<p>引用计数法（循环引用问题）、可达性分析（哪些对象可以作为GC Roots？）</p>
+<p>方法区的垃圾（废弃的常量和不再使用的类型）</p>
+</li>
+<li><p>怎么回收垃圾？<br>理论基础：弱分代假说（朝生夕灭），强分代假说（熬过越多次GC的对象越难消亡），跨代引用假说（用于永久代的记录集）<br>收集算法：<br>标记清除（执行效率不稳定、内存的碎片化问题）<br>半区复制的标记复制算法（内存复制的开销、内存缩减为一半）-&gt; 半区复制分代的标记复制算法（如ParNew收集器：Eden : s1 : s2 &#x3D; 8 : 1 : 1，存活对象超过10%使用老年代进行分配担保，适用于新生代）<br>标记整理算法（复制算法在存活率高的时候开销较大，且需要额外空间进行担保），适用于老年代</p>
+</li>
+</ul>
+</li>
+<li><p>JVM中一次完整的GC流程。</p>
+<p>当Eden区完全挤满，此时将触发Minor GC。</p>
+<p>在正式 Minor GC 前，JVM 会先检查新生代中对象，是比老年代中剩余空间大还是小。为什么要做这样的检查呢？原因很简单，假如 Minor GC 之后 Survivor 区放不下剩余对象，这些对象就要进入到老年代，所以要提前检查老年代是不是够用。这样就有两种情况：</p>
+<ol>
+<li><p>老年代剩余空间大于新生代中的对象大小，那就直接Minor GC，GC完survivor不够放，老年代也绝对够放；</p>
+</li>
+<li><p>老年代剩余空间小于新生代中的对象大小，这个时候就要查看是否启用了“老年代空间分配担保规则”，具体来说就是看 -XX:-HandlePromotionFailure 参数是否设置了。</p>
+<p>老年代空间分配担保规则是这样的，如果老年代中剩余空间大小，大于历次 Minor GC 之后剩余对象的大小，那就允许进行 Minor GC。因为从概率上来说，以前的放的下，这次的也应该放的下。那就有两种情况：</p>
+<p>老年代中剩余空间大小，大于历次Minor GC之后剩余对象的大小，进行 Minor GC；</p>
+<p>老年代中剩余空间大小，小于历次Minor GC之后剩余对象的大小，进行Full GC，把老年代空出来再检查。</p>
+</li>
+</ol>
+<p>开启老年代空间分配担保规则只能说是大概率上来说，Minor GC 剩余后的对象够放到老年代，所以当然也会有万一，Minor GC 后会有这样三种情况：</p>
+<ol>
+<li>Minor GC 之后的对象足够放到 Survivor 区，皆大欢喜，GC 结束；</li>
+<li>Minor GC 之后的对象不够放到 Survivor 区，接着进入到老年代，老年代能放下，那也可以，GC 结束；</li>
+<li>Minor GC 之后的对象不够放到 Survivor 区，老年代也放不下，那就只能 Full GC。</li>
+</ol>
+<p>前面都是成功 GC 的例子，还有 3 中情况，会导致 GC 失败，报 OOM：</p>
+<ol>
+<li>紧接上一节 Full GC 之后，老年代任然放不下剩余对象，就只能 OOM；</li>
+<li>未开启老年代分配担保机制，且一次 Full GC 后，老年代任然放不下剩余对象，也只能 OOM；</li>
+<li>开启老年代分配担保机制，但是担保不通过，一次 Full GC 后，老年代任然放不下剩余对象，也是能 OOM。</li>
+</ol>
+</li>
+<li><p>如何减少FullGC的次数？</p>
+<p>增加方法区的空间、增加老年代的空间、减少新生代的空间、禁止使用System.gc()方法、使用标记-整理算法，尽量保持较大的连续内存空间、排查代码中无用的大对象。</p>
+</li>
+<li><p>对象如何晋升到老年代？</p>
+<p>虚拟机给每个对象定义了一个对象年龄（Age）计数器，存储在对象头中。对象通常在Eden区里诞生，如果经过第一次MinorGC后仍然存活，并且能被Survivor容纳的话，该对象会被移动到Survivor空间中，并且将其对象年龄设为1岁。对象在Survivor区中每熬过一次MinorGC，年龄就增加1岁，当它的年龄增加到一定程度（默认为15），就会被晋升到老年代中。对象晋升老年代的年龄阈值，可以通过参数-XX：MaxTenuringThreshold设置。</p>
+</li>
+<li><p>G 1（Garbage First）</p>
+<p>G1（Garbage First）是一款主要面向服务端应用的垃圾收集器，JDK 9发布之日，G1成为服务端模式下的默认垃圾收集器，而CMS则沦落至被声明为不推荐使用（Deprecate）的收集器。G1收集器是垃圾收集器技术发展历史上的里程碑式的成果，它开创了收集器面向局部收集的设计思路和基于Region的内存布局形式。</p>
+<p>虽然G1也仍是遵循分代收集理论设计的，但其堆内存的布局与其他收集器有非常明显的差异：G1不再坚持固定大小以及固定数量的分代区域划分，而是把连续的Java堆划分为多个大小相等的独立区域（Region），每一个Region都可以根据需要，扮演新生代的Eden空间、Survivor空间，或者老年代空间。收集器能够对扮演不同角色的Region采用不同的策略去处理，这样无论是新创建的对象还是已经存活了一段时间、熬过多次收集的旧对象都能获取很好的收集效果。</p>
+<p>Region中还有一类特殊的Humongous区域，专门用来存储大对象。G1认为只要大小超过了一个Region容量一半的对象即可判定为大对象。每个Region的大小可以通过参数 -XX：G1HeapRegionSize 设定，取值范围为1MB～32MB，且应为2的N次幂。而对于那些超过了整个Region容量的超级大对象，将会被存放在N个连续的Humongous Region 之中，G1的大多数行为都把 Humongous Region 作为老年代的一部分来进行看待，如下图所示。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645691138195/247F7CD9892EB01A7A3ECBC7193FA032"></p>
+</li>
+</ol>
+<p>虽然G1仍然保留新生代和老年代的概念，但新生代和老年代不再是固定的了，它们都是一系列区域（不需要连续）的动态集合。G1收集器之所以能建立可预测的停顿时间模型，是因为它将Region作为单次回收的最小单元，即每次收集到的内存空间都是Region大小的整数倍，这样可以有计划地避免在整个Java堆中进行全区域的垃圾收集。更具体的处理思路是让G1收集器去跟踪各个Region里面的垃圾堆积的“价值”大小，价值即回收所获得的空间大小以及回收所需时间的经验值，然后在后台维护一个优先级列表，每次根据用户设定允许的收集停顿时间（使用参数-XX：MaxGCPauseMillis指定，默认值是200毫秒），优先处理回收价值收益最大的那些Region，这也就是“Garbage First”名字的由来。这种使用Region划分内存空间，以及具有优先级的区域回收方式，保证了G1收集器在有限的时间内获取尽可能高的收集效率。</p>
+<ol start="12">
+<li><p>CMS收集器</p>
+<p>CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220224/4107856_1645691156932/139DF2625D59EBF58A1FA8BBC0D38988"></p>
+</li>
+</ol>
+<p>问题：</p>
+<p>CMS收集器对处理器资源非常敏感。在并发阶段，它虽然不会导致用户线程停顿，但却会因为占用了一部分线程（或者说处理器的计算能力）而导致应用程序变慢，降低总吞吐量。</p>
+<p>由于CMS收集器无法处理“浮动垃圾”（Floating Garbage），有可能出现“Con-current Mode Failure”失败进而导致另一次完全“Stop TheWorld”的Full GC的产生。</p>
+<p>CMS是一款基于“标记-清除”算法实现的收集器，这意味着收集结束时会有大量空间碎片产生。空间碎片过多时，将会给大对象分配带来很大麻烦，往往会出现老年代还有很多剩余空间，但就是无法找到足够大的连续空间来分配当前对象，而不得不提前触发一次Full GC的情况。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="http://www.cocospace.top/">Coco</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.cocospace.com/2021/09/12/JVM/">http://www.cocospace.com/2021/09/12/JVM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.cocospace.com" target="_blank">cocospace</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JVM/">JVM</a><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://img2.baidu.com/it/u=1734247813,400897296&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=1111&amp;h=500" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2022/05/26/Springboot%E6%95%B4%E5%90%88Redis%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Springboot整合Redis连接不上的几种情况"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Springboot整合Redis连接不上的几种情况</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://himg.bdimg.com/sys/portrait/item/public.1.c9c27b67.T8_jvMBtFmm5HndCatP7rA.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Coco</div><div class="author-info__description">一天进步一点点~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Coco-001"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Coco-001" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:873181972@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">24秋招加油💪</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/05/26/Springboot%E6%95%B4%E5%90%88Redis%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Springboot整合Redis连接不上的几种情况">Springboot整合Redis连接不上的几种情况</a><time datetime="2022-05-26T11:03:04.562Z" title="发表于 2022-05-26 19:03:04">2022-05-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/12/JVM/" title="深入理解Java虚拟机"><img src="https://img2.baidu.com/it/u=1734247813,400897296&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=PNG?w=1111&amp;h=500" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深入理解Java虚拟机"/></a><div class="content"><a class="title" href="/2021/09/12/JVM/" title="深入理解Java虚拟机">深入理解Java虚拟机</a><time datetime="2021-09-11T16:00:00.000Z" title="发表于 2021-09-12 00:00:00">2021-09-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2023 By Coco</div><div class="footer_custom_text">坚持下去，总会有能看到希望的那天~</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
